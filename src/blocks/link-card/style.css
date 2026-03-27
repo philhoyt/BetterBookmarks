@@ -61,6 +61,7 @@
 	line-height: 1.5;
 	margin: 0;
 	display: -webkit-box;
+	line-clamp: 2;
 	-webkit-line-clamp: 2;
 	-webkit-box-orient: vertical;
 	overflow: hidden;
@@ -105,6 +106,7 @@
 
 .bb-link-card.is-style-compact-stacked .bb-link-card__description {
 	font-size: 0.75rem;
+	line-clamp: 1;
 	-webkit-line-clamp: 1;
 }
 
