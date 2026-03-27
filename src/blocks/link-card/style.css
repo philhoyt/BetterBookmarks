@@ -50,14 +50,14 @@
 .bb-link-card__title {
 	font-size: 0.9375rem;
 	font-weight: 600;
-	color: #0f172a;
+	color: inherit;
 	line-height: 1.35;
 	display: block;
 }
 
 .bb-link-card__description {
 	font-size: 0.8125rem;
-	color: #64748b;
+	color: inherit;
 	line-height: 1.5;
 	margin: 0;
 	display: -webkit-box;
@@ -66,10 +66,73 @@
 	overflow: hidden;
 }
 
+/* Alignment */
+.bb-link-card.alignleft {
+	float: left;
+}
+
+.bb-link-card.alignright {
+	float: right;
+}
+
+.bb-link-card.aligncenter {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.bb-link-card.alignwide,
+.bb-link-card.alignfull {
+	max-width: none;
+}
+
+/* Compact Stacked style — vertical layout with constrained image */
+.bb-link-card.is-style-compact-stacked {
+	max-width: 320px !important;
+}
+
+.bb-link-card.is-style-compact-stacked .bb-link-card__image-wrap {
+	aspect-ratio: 16 / 9 !important;
+}
+
+.bb-link-card.is-style-compact-stacked .bb-link-card__body {
+	padding: 0.625rem 0.75rem;
+	gap: 0.125rem;
+}
+
+.bb-link-card.is-style-compact-stacked .bb-link-card__title {
+	font-size: 0.875rem;
+}
+
+.bb-link-card.is-style-compact-stacked .bb-link-card__description {
+	font-size: 0.75rem;
+	-webkit-line-clamp: 1;
+}
+
+/* Compact style — horizontal layout with thumbnail */
+.bb-link-card.is-style-compact .bb-link-card__link {
+	display: flex;
+	flex-direction: row;
+}
+
+.bb-link-card.is-style-compact .bb-link-card__image-wrap {
+	width: 120px;
+	flex-shrink: 0;
+	aspect-ratio: 1 / 1 !important;
+}
+
+.bb-link-card.is-style-compact .bb-link-card__body {
+	flex: 1;
+	min-width: 0;
+}
+
+/* Minimal style — domain + title only, no image or description */
+.bb-link-card.is-style-minimal .bb-link-card__image-wrap,
+.bb-link-card.is-style-minimal .bb-link-card__description {
+	display: none;
+}
+
 /* Editor styles */
 .bb-link-card-editor__placeholder {
-	border: 2px dashed #e2e8f0;
-	border-radius: 12px;
 	padding: 1.25rem;
 	display: flex;
 	align-items: center;

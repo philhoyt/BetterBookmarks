@@ -21,8 +21,31 @@
     "supports": {
         "html":      false,
         "reusable":  true,
-        "spacing":   { "margin": [ "top", "bottom" ] }
+        "anchor":    true,
+        "renaming":  true,
+        "align":     true,
+        "color": {
+            "background": true,
+            "text":       true
+        },
+        "shadow":    true,
+        "border": {
+            "color":  true,
+            "radius": true,
+            "style":  true,
+            "width":  true
+        },
+        "spacing": {
+            "margin":  [ "top", "bottom" ],
+            "padding": true
+        }
     },
+    "styles": [
+        { "name": "default", "label": "Default", "isDefault": true },
+        { "name": "compact", "label": "Compact" },
+        { "name": "compact-stacked", "label": "Compact Stacked" },
+        { "name": "minimal", "label": "Minimal" }
+    ],
     "editorScript": "file:./index.js",
     "style":         "file:./style-index.css",
     "render":        "file:./render.php"

@@ -39,7 +39,7 @@ export default function Edit( { attributes, setAttributes } ) {
 	const [ loading, setLoading ] = useState( false );
 	const [ error, setError ] = useState( null );
 
-	const blockProps = useBlockProps( { className: 'bb-link-card-editor' } );
+	const blockProps = useBlockProps( { className: 'bb-link-card' } );
 
 	async function fetchPreview( fetchUrl ) {
 		if ( ! fetchUrl ) {
@@ -155,43 +155,41 @@ export default function Edit( { attributes, setAttributes } ) {
 			) }
 
 			{ hasCard && (
-				<div className="bb-link-card">
-					<div className="bb-link-card__link">
-						{ image && (
-							<div
-								className="bb-link-card__image-wrap"
-								style={ {
-									aspectRatio:
-										imageAspectRatio ||
-										( imageWidth && imageHeight
-											? `${ imageWidth } / ${ imageHeight }`
-											: '1.91 / 1' ),
-								} }
-							>
-								<img
-									className="bb-link-card__image"
-									src={ image }
-									alt=""
-								/>
-							</div>
-						) }
-						<div className="bb-link-card__body">
-							{ domain && (
-								<span className="bb-link-card__domain">
-									{ domain }
-								</span>
-							) }
-							{ title && (
-								<strong className="bb-link-card__title">
-									{ title }
-								</strong>
-							) }
-							{ description && (
-								<p className="bb-link-card__description">
-									{ description }
-								</p>
-							) }
+				<div className="bb-link-card__link">
+					{ image && (
+						<div
+							className="bb-link-card__image-wrap"
+							style={ {
+								aspectRatio:
+									imageAspectRatio ||
+									( imageWidth && imageHeight
+										? `${ imageWidth } / ${ imageHeight }`
+										: '1.91 / 1' ),
+							} }
+						>
+							<img
+								className="bb-link-card__image"
+								src={ image }
+								alt=""
+							/>
 						</div>
+					) }
+					<div className="bb-link-card__body">
+						{ domain && (
+							<span className="bb-link-card__domain">
+								{ domain }
+							</span>
+						) }
+						{ title && (
+							<strong className="bb-link-card__title">
+								{ title }
+							</strong>
+						) }
+						{ description && (
+							<p className="bb-link-card__description">
+								{ description }
+							</p>
+						) }
 					</div>
 				</div>
 			) }
