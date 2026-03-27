@@ -4,7 +4,8 @@
  * Plugin URI:  https://github.com/philhoyt/better-bookmarks
  * Description: A link card block that fetches Open Graph metadata and renders a rich preview card.
  * Version:     1.0.0
- * Author:      Phil Hoyt
+ * Author:      philhoyt
+ * Author URI:  https://philhoyt.com/
  * License:     GPL-2.0-or-later
  * Text Domain: better-bookmarks
  *
