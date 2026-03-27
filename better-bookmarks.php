@@ -21,5 +21,14 @@ define( 'BETTER_BOOKMARKS_URL', plugin_dir_url( __FILE__ ) );
 
 require_once BETTER_BOOKMARKS_PATH . 'includes/class-better-bookmarks.php';
 require_once BETTER_BOOKMARKS_PATH . 'includes/class-rest.php';
+require_once BETTER_BOOKMARKS_PATH . 'lib/plugin-update-checker/plugin-update-checker.php';
+
+use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
+
+$better_bookmarks_update_checker = PucFactory::buildUpdateChecker(
+	'https://github.com/philhoyt/BetterBookmarks/',
+	__FILE__,
+	'better-bookmarks'
+);
 
 ( new Better_Bookmarks() )->init();

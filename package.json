@@ -14,7 +14,8 @@
         "better-bookmarks.php",
         "readme.txt",
         "build",
-        "includes"
+        "includes",
+        "lib"
     ],
     "devDependencies": {
         "@wordpress/scripts": "^30.0.0"
