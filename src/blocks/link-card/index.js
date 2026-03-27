@@ -1,4 +1,4 @@
-import { registerBlockType } from '@wordpress/blocks';
+import { registerBlockType, createBlock } from '@wordpress/blocks';
 import { SVG, Path } from '@wordpress/primitives';
 import metadata from './block.json';
 import Edit from './edit.jsx';
@@ -14,4 +14,16 @@ registerBlockType( metadata.name, {
 	icon,
 	edit: Edit,
 	save: () => null,
+	transforms: {
+		from: [
+			{
+				type: 'block',
+				blocks: [ 'core/embed' ],
+				transform: ( { url } ) =>
+					createBlock( 'better-bookmarks/link-card', {
+						url: url || '',
+					} ),
+			},
+		],
+	},
 } );

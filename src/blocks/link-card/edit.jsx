@@ -1,4 +1,4 @@
-import { useState } from '@wordpress/element';
+import { useState, useEffect } from '@wordpress/element';
 import {
 	useBlockProps,
 	InspectorControls,
@@ -40,6 +40,12 @@ export default function Edit( { attributes, setAttributes } ) {
 	const [ error, setError ] = useState( null );
 
 	const blockProps = useBlockProps( { className: 'bb-link-card' } );
+
+	useEffect( () => {
+		if ( url && ! title ) {
+			fetchPreview( url );
+		}
+	}, [] ); // eslint-disable-line react-hooks/exhaustive-deps
 
 	async function fetchPreview( fetchUrl ) {
 		if ( ! fetchUrl ) {
@@ -93,6 +99,8 @@ export default function Edit( { attributes, setAttributes } ) {
 						onKeyDown={ handleKeyDown }
 						placeholder="https://"
 						type="url"
+						__next40pxDefaultSize
+						__nextHasNoMarginBottom
 					/>
 					<Button
 						variant="secondary"
@@ -113,6 +121,8 @@ export default function Edit( { attributes, setAttributes } ) {
 								'better-bookmarks'
 							) }
 							value={ imageAspectRatio }
+							__next40pxDefaultSize
+							__nextHasNoMarginBottom
 							options={ [
 								{
 									label: __(
