@@ -4,7 +4,7 @@ Tags: block, bookmark, link-card, open-graph, gutenberg
 Requires at least: 6.5
 Tested up to: 7.0
 Requires PHP: 7.2
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -60,6 +60,10 @@ Yes. Once a preview is loaded, open the block inspector and switch to the **Styl
 No.
 
 == Changelog ==
+
+= 1.0.2 =
+* Removed deprecated `load_plugin_textdomain()` call; WordPress handles translation loading automatically since 4.6.
+* Renamed render.php variables to use the full `better_bookmarks_` prefix to satisfy Plugin Check static analysis.
 
 = 1.0.1 =
 * Added four style variations: Default, Compact, Compact Stacked, and Minimal.

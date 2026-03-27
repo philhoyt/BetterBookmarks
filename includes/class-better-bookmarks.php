@@ -20,7 +20,6 @@ class Better_Bookmarks {
 	public function init(): void {
 		add_action( 'init', array( $this, 'register_block' ) );
 		add_filter( 'block_categories_all', array( $this, 'register_block_category' ), 10, 1 );
-		add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
 
 		( new Better_Bookmarks_Rest() )->init();
 	}
@@ -54,12 +53,5 @@ class Better_Bookmarks {
 		);
 
 		return $categories;
-	}
-
-	/**
-	 * Load plugin text domain.
-	 */
-	public function load_textdomain(): void {
-		load_plugin_textdomain( 'better-bookmarks', false, dirname( plugin_basename( BETTER_BOOKMARKS_PATH ) ) . '/languages' );
 	}
 }
