@@ -13,12 +13,15 @@
         "title":       { "type": "string",  "default": "" },
         "description": { "type": "string",  "default": "" },
         "image":       { "type": "string",  "default": "" },
-        "domain":      { "type": "string",  "default": "" }
+        "domain":      { "type": "string",  "default": "" },
+        "imageWidth":       { "type": "integer", "default": 0 },
+        "imageHeight":      { "type": "integer", "default": 0 },
+        "imageAspectRatio": { "type": "string",  "default": "" }
     },
     "supports": {
         "html":      false,
         "reusable":  true,
-        "align":     [ "wide" ]
+        "spacing":   { "margin": [ "top", "bottom" ] }
     },
     "editorScript": "file:./index.js",
     "style":         "file:./style-index.css",

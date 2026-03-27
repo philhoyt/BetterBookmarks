@@ -13,11 +13,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$bb_url         = $attributes['url'] ?? '';
-$bb_title       = $attributes['title'] ?? '';
-$bb_description = $attributes['description'] ?? '';
-$bb_image       = $attributes['image'] ?? '';
-$bb_domain      = $attributes['domain'] ?? '';
+$bb_url                = $attributes['url'] ?? '';
+$bb_title              = $attributes['title'] ?? '';
+$bb_description        = $attributes['description'] ?? '';
+$bb_image              = $attributes['image'] ?? '';
+$bb_domain             = $attributes['domain'] ?? '';
+$bb_image_width        = (int) ( $attributes['imageWidth'] ?? 0 );
+$bb_image_height       = (int) ( $attributes['imageHeight'] ?? 0 );
+$bb_image_aspect_ratio = $attributes['imageAspectRatio'] ?? '';
+$bb_aspect_ratio_style = 'aspect-ratio:' . esc_attr(
+	$bb_image_aspect_ratio
+		? $bb_image_aspect_ratio
+		: ( $bb_image_width && $bb_image_height ? $bb_image_width . ' / ' . $bb_image_height : '1.91 / 1' )
+);
 
 if ( ! $bb_url ) {
 	return;
@@ -30,7 +38,11 @@ $wrapper_attributes = get_block_wrapper_attributes(
 <div <?php echo $wrapper_attributes; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 	<a class="bb-link-card__link" href="<?php echo esc_url( $bb_url ); ?>" target="_blank" rel="noopener noreferrer">
 		<?php if ( $bb_image ) : ?>
-		<div class="bb-link-card__image-wrap">
+		<div class="bb-link-card__image-wrap"
+			<?php
+			if ( $bb_aspect_ratio_style ) :
+				?>
+			style="<?php echo $bb_aspect_ratio_style; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped above ?>"<?php endif; ?>>
 			<img
 				class="bb-link-card__image"
 				src="<?php echo esc_url( $bb_image ); ?>"

@@ -80,6 +80,8 @@ class Better_Bookmarks_Rest {
 			'description' => '',
 			'image'       => '',
 			'domain'      => $host ? preg_replace( '/^www\./', '', $host ) : '',
+			'imageWidth'  => 0,
+			'imageHeight' => 0,
 		);
 
 		// og:title → <title> fallback.
@@ -103,6 +105,33 @@ class Better_Bookmarks_Rest {
 		if ( preg_match( '/<meta[^>]+property=["\']og:image["\'][^>]+content=["\'](.*?)["\']/i', $body, $m )
 			|| preg_match( '/<meta[^>]+content=["\'](.*?)["\'][^>]+property=["\']og:image["\']/i', $body, $m ) ) {
 			$data['image'] = $m[1];
+		}
+
+		// og:image dimensions — try meta tags first, then probe the image.
+		if ( $data['image'] ) {
+			$img_w = 0;
+			$img_h = 0;
+
+			if ( preg_match( '/<meta[^>]+property=["\']og:image:width["\'][^>]+content=["\'](\d+)["\']/i', $body, $mw )
+				|| preg_match( '/<meta[^>]+content=["\'](\d+)["\'][^>]+property=["\']og:image:width["\']/i', $body, $mw ) ) {
+				$img_w = (int) $mw[1];
+			}
+			if ( preg_match( '/<meta[^>]+property=["\']og:image:height["\'][^>]+content=["\'](\d+)["\']/i', $body, $mh )
+				|| preg_match( '/<meta[^>]+content=["\'](\d+)["\'][^>]+property=["\']og:image:height["\']/i', $body, $mh ) ) {
+				$img_h = (int) $mh[1];
+			}
+
+			if ( ! $img_w || ! $img_h ) {
+				// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- getimagesize() emits E_WARNING on network failure; return value is always checked.
+				$size = @getimagesize( $data['image'] );
+				if ( $size ) {
+					$img_w = $size[0];
+					$img_h = $size[1];
+				}
+			}
+
+			$data['imageWidth']  = $img_w;
+			$data['imageHeight'] = $img_h;
 		}
 
 		// Truncate description to a sensible length.

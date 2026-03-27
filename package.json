@@ -4,7 +4,10 @@
     "description": "A link card block with Open Graph preview support.",
     "scripts": {
         "build": "wp-scripts build --webpack-src-dir=src --output-path=build",
-        "start": "wp-scripts start --webpack-src-dir=src --output-path=build"
+        "start": "wp-scripts start --webpack-src-dir=src --output-path=build",
+        "lint:js": "wp-scripts lint-js src",
+        "lint:css": "wp-scripts lint-style 'src/**/*.css'",
+        "lint": "npm run lint:js && npm run lint:css"
     },
     "devDependencies": {
         "@wordpress/scripts": "^30.0.0"
