@@ -15,6 +15,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Better_Bookmarks_Rest {
 
 	/**
+	 * Maximum response body size to read (2 MB).
+	 */
+	const MAX_RESPONSE_SIZE = 2 * 1024 * 1024;
+
+	/**
 	 * Register hooks.
 	 */
 	public function init(): void {
@@ -38,13 +43,48 @@ class Better_Bookmarks_Rest {
 					'url' => array(
 						'required'          => true,
 						'validate_callback' => function ( $url ) {
-							return filter_var( $url, FILTER_VALIDATE_URL ) !== false;
+							return filter_var( $url, FILTER_VALIDATE_URL ) !== false
+								&& $this->is_safe_url( $url );
 						},
 						'sanitize_callback' => 'esc_url_raw',
 					),
 				),
 			)
 		);
+	}
+
+	/**
+	 * Validate that a URL is safe to fetch (public http/https only).
+	 *
+	 * Blocks non-http/https schemes, private IP ranges, loopback,
+	 * link-local (including cloud metadata endpoints at 169.254.x.x),
+	 * and other reserved ranges.
+	 *
+	 * @param string $url The URL to validate.
+	 * @return bool
+	 */
+	private function is_safe_url( string $url ): bool {
+		$scheme = wp_parse_url( $url, PHP_URL_SCHEME );
+		if ( ! in_array( $scheme, array( 'http', 'https' ), true ) ) {
+			return false;
+		}
+
+		if ( ! wp_http_validate_url( $url ) ) {
+			return false;
+		}
+
+		$host = wp_parse_url( $url, PHP_URL_HOST );
+		if ( ! $host ) {
+			return false;
+		}
+
+		$ip = gethostbyname( $host );
+
+		if ( filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE ) === false ) {
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
@@ -59,9 +99,10 @@ class Better_Bookmarks_Rest {
 		$response = wp_remote_get(
 			$url,
 			array(
-				'timeout'    => 10,
-				'user-agent' => 'Mozilla/5.0 (compatible; BetterBookmarks/' . BETTER_BOOKMARKS_VERSION . '; +https://wordpress.org)',
-				'sslverify'  => true,
+				'timeout'             => 10,
+				'limit_response_size' => self::MAX_RESPONSE_SIZE,
+				'user-agent'          => 'Mozilla/5.0 (compatible; BetterBookmarks/' . BETTER_BOOKMARKS_VERSION . '; +https://wordpress.org)',
+				'sslverify'           => true,
 			)
 		);
 
@@ -122,11 +163,15 @@ class Better_Bookmarks_Rest {
 			}
 
 			if ( ! $img_w || ! $img_h ) {
-				// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- getimagesize() emits E_WARNING on network failure; return value is always checked.
-				$size = @getimagesize( $data['image'] );
-				if ( $size ) {
-					$img_w = $size[0];
-					$img_h = $size[1];
+				// Only probe the image if it passes the same safety checks as the
+				// page URL — prevents chained SSRF via a malicious og:image value.
+				if ( $this->is_safe_url( $data['image'] ) ) {
+					// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- getimagesize() emits E_WARNING on network failure; return value is always checked.
+					$size = @getimagesize( $data['image'] );
+					if ( $size ) {
+						$img_w = $size[0];
+						$img_h = $size[1];
+					}
 				}
 			}
 
