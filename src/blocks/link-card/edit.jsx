@@ -114,10 +114,15 @@ export default function Edit( { attributes, setAttributes } ) {
 						) }
 					</Button>
 					{ error && <p className="bb-editor-error">{ error }</p> }
-					{ image && (
+				</PanelBody>
+			</InspectorControls>
+
+			{ image && (
+				<InspectorControls group="styles">
+					<PanelBody title={ __( 'Image', 'better-bookmarks' ) }>
 						<SelectControl
 							label={ __(
-								'Image aspect ratio',
+								'Aspect ratio',
 								'better-bookmarks'
 							) }
 							value={ imageAspectRatio }
@@ -126,7 +131,7 @@ export default function Edit( { attributes, setAttributes } ) {
 							options={ [
 								{
 									label: __(
-										'Original (1.91:1)',
+										'Original',
 										'better-bookmarks'
 									),
 									value: '',
@@ -142,9 +147,9 @@ export default function Edit( { attributes, setAttributes } ) {
 								setAttributes( { imageAspectRatio: val } )
 							}
 						/>
-					) }
-				</PanelBody>
-			</InspectorControls>
+					</PanelBody>
+				</InspectorControls>
+			) }
 
 			{ ! hasCard && (
 				<div className="bb-link-card-editor__placeholder">
