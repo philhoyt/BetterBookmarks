@@ -1,10 +1,10 @@
 === Better Bookmarks ===
 Contributors: philhoyt
 Tags: block, bookmark, link-card, open-graph, gutenberg
-Requires at least: 6.4
-Tested up to: 6.9.4
-Requires PHP: 8.1
-Stable tag: 1.0.0
+Requires at least: 6.5
+Tested up to: 7.0
+Requires PHP: 7.2
+Stable tag: 1.0.1
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -20,8 +20,12 @@ Metadata is fetched server-side via a REST endpoint at edit time and stored as b
 
 * Fetches og:title, og:description, og:image, og:image:width, og:image:height
 * Falls back to <title> and <meta name="description"> when OG tags are absent
+* Four style variations: Default, Compact, Compact Stacked, and Minimal
 * Image aspect ratio control using the same presets as the core Image block
 * Defaults to 1.91:1 (the OG image spec recommendation)
+* Block alignment controls (left, center, right, wide, full)
+* Full block supports: color, border, shadow, padding, anchor
+* Transform from core Embed block — URL carries over automatically
 
 **Limitations**
 
@@ -49,13 +53,23 @@ Dimensions come from `og:image:width` and `og:image:height` meta tags. If the ta
 
 = Can I change the aspect ratio? =
 
-Yes. Once a preview is loaded, open the block settings sidebar. An aspect ratio selector appears below the URL field. Options are pulled from your theme's registered aspect ratios (the same list used by the core Image block).
+Yes. Once a preview is loaded, open the block inspector and switch to the **Styles** tab. An aspect ratio selector appears in the Image panel. Options are pulled from your theme's registered aspect ratios (the same list used by the core Image block).
 
 = Does this work with the Classic Editor? =
 
 No.
 
 == Changelog ==
+
+= 1.0.1 =
+* Added four style variations: Default, Compact, Compact Stacked, and Minimal.
+* Added block supports: color (background and text), border, shadow, padding, anchor, and renaming.
+* Added alignment controls: left, center, right, wide, and full.
+* Added block transform from core Embed block with automatic metadata fetch.
+* Moved image aspect ratio control to the Styles tab in the block inspector.
+* Hardened REST endpoint against SSRF: blocks non-http/s schemes, private and reserved IP ranges, and limits response size to 2 MB.
+* Added automatic update checks via GitHub releases.
+* Bumped minimum WordPress version to 6.5.
 
 = 1.0.0 =
 * Initial release.

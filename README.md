@@ -4,8 +4,8 @@ A WordPress block that fetches Open Graph metadata from a URL and renders a link
 
 ## Requirements
 
-- WordPress 6.4+
-- PHP 8.1+
+- WordPress 6.5+
+- PHP 7.2+
 - Node.js (for building from source)
 
 ## Installation
@@ -35,7 +35,7 @@ Requires `edit_posts` capability.
 
 | Parameter | Required | Description |
 |-----------|----------|-------------|
-| `url` | Yes | The URL to fetch. Must pass `FILTER_VALIDATE_URL`. |
+| `url` | Yes | The URL to fetch. Must be a valid public http/https URL. Private and reserved IP ranges are blocked. |
 
 **Response**
 
