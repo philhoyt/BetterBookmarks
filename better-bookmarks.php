@@ -3,7 +3,7 @@
  * Plugin Name: Better Bookmarks
  * Plugin URI:  https://github.com/philhoyt/better-bookmarks
  * Description: A link card block that fetches Open Graph metadata and renders a rich preview card.
- * Version:     1.0.0
+ * Version:     0.9.0
  * Author:      philhoyt
  * Author URI:  https://philhoyt.com/
  * License:     GPL-2.0-or-later
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'BETTER_BOOKMARKS_VERSION', '1.0.0' );
+define( 'BETTER_BOOKMARKS_VERSION', '0.9.0' );
 define( 'BETTER_BOOKMARKS_PATH', plugin_dir_path( __FILE__ ) );
 define( 'BETTER_BOOKMARKS_URL', plugin_dir_url( __FILE__ ) );
 
@@ -31,5 +31,6 @@ $better_bookmarks_update_checker = PucFactory::buildUpdateChecker(
 	__FILE__,
 	'better-bookmarks'
 );
+$better_bookmarks_update_checker->getVcsApi()->enableReleaseAssets();
 
 ( new Better_Bookmarks() )->init();
