@@ -21,6 +21,6 @@
         <exclude-pattern>includes/class-*.php</exclude-pattern>
     </rule>
 
-    <config name="minimum_supported_wp_version" value="6.4"/>
+    <config name="minimum_supported_wp_version" value="6.5"/>
     <config name="testVersion" value="8.1-"/>
 </ruleset>

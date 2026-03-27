@@ -1,13 +1,16 @@
 <?php
 /**
  * Plugin Name: Better Bookmarks
- * Plugin URI:  https://github.com/philhoyt/better-bookmarks
+ * Plugin URI:  https://github.com/philhoyt/BetterBookmarks
  * Description: A link card block that fetches Open Graph metadata and renders a rich preview card.
  * Version:     1.0.0
  * Author:      philhoyt
  * Author URI:  https://philhoyt.com/
- * License:     GPL-2.0-or-later
- * Text Domain: better-bookmarks
+ * Requires at least: 6.5
+ * Requires PHP:      7.2
+ * Tested up to:      7.0
+ * License:           GPL-2.0-or-later
+ * Text Domain:       better-bookmarks
  *
  * @package BetterBookmarks
  */
