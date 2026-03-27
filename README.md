@@ -2,6 +2,8 @@
 
 A WordPress block that fetches Open Graph metadata from a URL and renders a link preview card.
 
+![Better Bookmarks block showing a link preview card for WordPress.org](assets/screenshot-1.png)
+
 ## Requirements
 
 - WordPress 6.5+
