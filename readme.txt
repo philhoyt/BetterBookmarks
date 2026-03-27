@@ -8,7 +8,7 @@ Stable tag: 1.0.0
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-A Gutenberg block that fetches Open Graph metadata from a URL and renders a link preview card.
+A WordPress block that fetches Open Graph metadata from a URL and renders a link preview card.
 
 == Description ==
 

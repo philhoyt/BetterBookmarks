@@ -1,6 +1,6 @@
 # Better Bookmarks
 
-A Gutenberg block that fetches Open Graph metadata from a URL and renders a link preview card.
+A WordPress block that fetches Open Graph metadata from a URL and renders a link preview card.
 
 ## Requirements
 
