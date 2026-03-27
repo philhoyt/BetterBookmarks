@@ -7,8 +7,15 @@
         "start": "wp-scripts start --webpack-src-dir=src --output-path=build",
         "lint:js": "wp-scripts lint-js src",
         "lint:css": "wp-scripts lint-style 'src/**/*.css'",
-        "lint": "npm run lint:js && npm run lint:css"
+        "lint": "npm run lint:js && npm run lint:css",
+        "plugin-zip": "wp-scripts plugin-zip"
     },
+    "files": [
+        "better-bookmarks.php",
+        "readme.txt",
+        "build",
+        "includes"
+    ],
     "devDependencies": {
         "@wordpress/scripts": "^30.0.0"
     }
