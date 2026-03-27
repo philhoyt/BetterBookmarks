@@ -12,6 +12,13 @@ A WordPress block that fetches Open Graph metadata from a URL and renders a link
 
 ## Installation
 
+1. Download the latest `better-bookmarks.zip` from the [Releases page](https://github.com/philhoyt/BetterBookmarks/releases).
+2. In your WordPress admin, go to **Plugins → Add New Plugin → Upload Plugin**.
+3. Choose the downloaded zip file and click **Install Now**.
+4. Click **Activate Plugin**.
+
+## Building from Source
+
 Clone or download the plugin into `wp-content/plugins/better-bookmarks/`, then build the assets:
 
 ```bash
