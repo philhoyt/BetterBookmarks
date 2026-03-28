@@ -21,6 +21,9 @@ $better_bookmarks_domain             = $attributes['domain'] ?? '';
 $better_bookmarks_image_width        = (int) ( $attributes['imageWidth'] ?? 0 );
 $better_bookmarks_image_height       = (int) ( $attributes['imageHeight'] ?? 0 );
 $better_bookmarks_image_aspect_ratio = $attributes['imageAspectRatio'] ?? '';
+$better_bookmarks_image_object_fit   = $attributes['imageObjectFit'] ?? 'cover';
+$better_bookmarks_card_max_width     = $attributes['cardMaxWidth'] ?? '320px';
+$better_bookmarks_is_compact_stacked = strpos( $attributes['className'] ?? '', 'is-style-compact-stacked' ) !== false;
 $better_bookmarks_aspect_ratio_style = 'aspect-ratio:' . esc_attr(
 	$better_bookmarks_image_aspect_ratio
 		? $better_bookmarks_image_aspect_ratio
@@ -31,9 +34,11 @@ if ( ! $better_bookmarks_url ) {
 	return;
 }
 
-$better_bookmarks_wrapper_attributes = get_block_wrapper_attributes(
-	array( 'class' => 'bb-link-card' )
-);
+$better_bookmarks_wrapper_extra = array( 'class' => 'bb-link-card' );
+if ( $better_bookmarks_is_compact_stacked ) {
+	$better_bookmarks_wrapper_extra['style'] = 'max-width:' . esc_attr( $better_bookmarks_card_max_width );
+}
+$better_bookmarks_wrapper_attributes = get_block_wrapper_attributes( $better_bookmarks_wrapper_extra );
 ?>
 <div <?php echo $better_bookmarks_wrapper_attributes; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 	<a class="bb-link-card__link" href="<?php echo esc_url( $better_bookmarks_url ); ?>" target="_blank" rel="noopener noreferrer">
@@ -48,6 +53,7 @@ $better_bookmarks_wrapper_attributes = get_block_wrapper_attributes(
 				src="<?php echo esc_url( $better_bookmarks_image ); ?>"
 				alt=""
 				loading="lazy"
+				style="object-fit:<?php echo esc_attr( $better_bookmarks_image_object_fit ); ?>"
 			/>
 		</div>
 		<?php endif; ?>

@@ -4,12 +4,14 @@ import {
 	InspectorControls,
 	useSettings,
 } from '@wordpress/block-editor';
+import { useSelect } from '@wordpress/data';
 import {
 	PanelBody,
 	TextControl,
 	Button,
 	Spinner,
 	SelectControl,
+	__experimentalUnitControl as UnitControl,
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
@@ -23,7 +25,7 @@ import apiFetch from '@wordpress/api-fetch';
  * @param {Object}   root0.attributes
  * @param {Function} root0.setAttributes
  */
-export default function Edit( { attributes, setAttributes } ) {
+export default function Edit( { attributes, setAttributes, clientId } ) {
 	const {
 		url,
 		title,
@@ -33,13 +35,27 @@ export default function Edit( { attributes, setAttributes } ) {
 		imageWidth,
 		imageHeight,
 		imageAspectRatio,
+		imageObjectFit,
+		cardMaxWidth,
 	} = attributes;
 	const [ aspectRatios ] = useSettings( 'dimensions.aspectRatios' );
+	const blockClassName = useSelect(
+		( select ) =>
+			select( 'core/block-editor' ).getBlockAttributes( clientId )
+				?.className ?? '',
+		[ clientId ]
+	);
+	const isCompactStacked = blockClassName.includes( 'is-style-compact-stacked' );
+	const isFixedAspectRatioStyle =
+		blockClassName.includes( 'is-style-compact' ) || isCompactStacked;
 	const [ inputUrl, setInputUrl ] = useState( url );
 	const [ loading, setLoading ] = useState( false );
 	const [ error, setError ] = useState( null );
 
-	const blockProps = useBlockProps( { className: 'bb-link-card' } );
+	const blockProps = useBlockProps( {
+		className: 'bb-link-card',
+		style: isCompactStacked ? { maxWidth: cardMaxWidth } : undefined,
+	} );
 
 	useEffect( () => {
 		if ( url && ! title ) {
@@ -117,34 +133,76 @@ export default function Edit( { attributes, setAttributes } ) {
 				</PanelBody>
 			</InspectorControls>
 
+			{ isCompactStacked && (
+				<InspectorControls group="styles">
+					<PanelBody title={ __( 'Layout', 'better-bookmarks' ) }>
+						<UnitControl
+							label={ __( 'Max width', 'better-bookmarks' ) }
+							value={ cardMaxWidth }
+							units={ [
+								{ value: 'px', label: 'px', default: 320 },
+								{ value: 'em', label: 'em', default: 20 },
+								{ value: 'rem', label: 'rem', default: 20 },
+								{ value: '%', label: '%', default: 100 },
+							] }
+							onChange={ ( val ) =>
+								setAttributes( { cardMaxWidth: val } )
+							}
+							__next40pxDefaultSize
+							__nextHasNoMarginBottom
+						/>
+					</PanelBody>
+				</InspectorControls>
+			) }
+
 			{ image && (
 				<InspectorControls group="styles">
 					<PanelBody title={ __( 'Image', 'better-bookmarks' ) }>
+						{ ! isFixedAspectRatioStyle && (
+							<SelectControl
+								label={ __(
+									'Aspect ratio',
+									'better-bookmarks'
+								) }
+								value={ imageAspectRatio }
+								__next40pxDefaultSize
+								options={ [
+									{
+										label: __(
+											'Original',
+											'better-bookmarks'
+										),
+										value: '',
+									},
+									...( aspectRatios ?? [] )
+										.filter( ( r ) => r.ratio !== 'auto' )
+										.map( ( r ) => ( {
+											label: r.name,
+											value: r.ratio,
+										} ) ),
+								] }
+								onChange={ ( val ) =>
+									setAttributes( { imageAspectRatio: val } )
+								}
+							/>
+						) }
 						<SelectControl
-							label={ __(
-								'Aspect ratio',
-								'better-bookmarks'
-							) }
-							value={ imageAspectRatio }
+							label={ __( 'Image fit', 'better-bookmarks' ) }
+							value={ imageObjectFit }
 							__next40pxDefaultSize
 							__nextHasNoMarginBottom
 							options={ [
 								{
-									label: __(
-										'Original',
-										'better-bookmarks'
-									),
-									value: '',
+									label: __( 'Contain', 'better-bookmarks' ),
+									value: 'contain',
 								},
-								...( aspectRatios ?? [] )
-									.filter( ( r ) => r.ratio !== 'auto' )
-									.map( ( r ) => ( {
-										label: r.name,
-										value: r.ratio,
-									} ) ),
+								{
+									label: __( 'Cover', 'better-bookmarks' ),
+									value: 'cover',
+								},
 							] }
 							onChange={ ( val ) =>
-								setAttributes( { imageAspectRatio: val } )
+								setAttributes( { imageObjectFit: val } )
 							}
 						/>
 					</PanelBody>
@@ -186,6 +244,7 @@ export default function Edit( { attributes, setAttributes } ) {
 								className="bb-link-card__image"
 								src={ image }
 								alt=""
+								style={ { objectFit: imageObjectFit } }
 							/>
 						</div>
 					) }

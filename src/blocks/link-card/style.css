@@ -28,7 +28,6 @@
 .bb-link-card__image {
 	width: 100%;
 	height: 100%;
-	object-fit: contain;
 	display: block;
 }
 
@@ -91,7 +90,7 @@
 
 /* Compact Stacked style — vertical layout with constrained image */
 .bb-link-card.is-style-compact-stacked {
-	max-width: 320px !important;
+	max-width: 320px;
 }
 
 .bb-link-card.is-style-compact-stacked .bb-link-card__image-wrap {
