@@ -4,7 +4,7 @@ Tags: block, bookmark, link-card, open-graph, gutenberg
 Requires at least: 6.5
 Tested up to: 7.0
 Requires PHP: 7.2
-Stable tag: 1.0.3
+Stable tag: 1.0.4
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -60,6 +60,9 @@ Yes. Once a preview is loaded, open the block inspector and switch to the **Styl
 No.
 
 == Changelog ==
+
+= 1.0.4 =
+* Limit link card title to two lines with ellipsis truncation.
 
 = 1.0.3 =
 * Changed image wrap background color to white.
