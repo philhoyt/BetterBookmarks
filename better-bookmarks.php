@@ -3,7 +3,7 @@
  * Plugin Name: Better Bookmarks
  * Plugin URI:  https://github.com/philhoyt/BetterBookmarks
  * Description: A link card block that fetches Open Graph metadata and renders a rich preview card.
- * Version:     1.0.4
+ * Version:     1.0.5
  * Author:      philhoyt
  * Author URI:  https://philhoyt.com/
  * Requires at least: 6.5
@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'BETTER_BOOKMARKS_VERSION', '1.0.4' );
+define( 'BETTER_BOOKMARKS_VERSION', '1.0.5' );
 define( 'BETTER_BOOKMARKS_PATH', plugin_dir_path( __FILE__ ) );
 define( 'BETTER_BOOKMARKS_URL', plugin_dir_url( __FILE__ ) );
 

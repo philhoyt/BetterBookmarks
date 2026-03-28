@@ -2,7 +2,7 @@
     "$schema": "https://schemas.wp.org/trunk/block.json",
     "apiVersion": 3,
     "name": "better-bookmarks/link-card",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "title": "Link Card",
     "category": "better-bookmarks",
     "description": "Displays a rich link preview card using Open Graph metadata.",
@@ -16,7 +16,9 @@
         "domain":      { "type": "string",  "default": "" },
         "imageWidth":       { "type": "integer", "default": 0 },
         "imageHeight":      { "type": "integer", "default": 0 },
-        "imageAspectRatio": { "type": "string",  "default": "" }
+        "imageAspectRatio": { "type": "string",  "default": "" },
+        "imageObjectFit":   { "type": "string",  "default": "cover" },
+        "cardMaxWidth":     { "type": "string",  "default": "320px" }
     },
     "supports": {
         "html":      false,
