@@ -88,13 +88,127 @@ class Better_Bookmarks_Rest {
 	}
 
 	/**
+	 * Extract an IMDb title ID from a URL, or return an empty string.
+	 *
+	 * @param string $url The URL to check.
+	 * @return string IMDb ID (e.g. "tt5370118") or empty string.
+	 */
+	private function get_imdb_id( string $url ): string {
+		if ( preg_match( '#imdb\.com/title/(tt\d+)#i', $url, $m ) ) {
+			return $m[1];
+		}
+		return '';
+	}
+
+	/**
+	 * Fetch metadata from TMDb for a given IMDb ID.
+	 *
+	 * Returns a response-ready data array on success, or null if the key is
+	 * missing, the lookup fails, or the title cannot be found.
+	 *
+	 * @param string $imdb_id IMDb title ID (e.g. "tt5370118").
+	 * @param string $url     Original IMDb URL, used as the canonical URL in the response.
+	 * @return array|null
+	 */
+	private function fetch_from_tmdb( string $imdb_id, string $url ): ?array {
+		$api_key = Better_Bookmarks_Settings::get_tmdb_api_key();
+		if ( ! $api_key ) {
+			return null;
+		}
+
+		// Step 1: resolve IMDb ID → TMDb ID + media type.
+		$find_response = wp_remote_get(
+			add_query_arg(
+				array(
+					'api_key'         => $api_key,
+					'external_source' => 'imdb_id',
+				),
+				'https://api.themoviedb.org/3/find/' . rawurlencode( $imdb_id )
+			),
+			array(
+				'timeout'   => 10,
+				'sslverify' => true,
+			)
+		);
+
+		if ( is_wp_error( $find_response ) || 200 !== wp_remote_retrieve_response_code( $find_response ) ) {
+			return null;
+		}
+
+		$find_data  = json_decode( wp_remote_retrieve_body( $find_response ), true );
+		$tmdb_id    = null;
+		$media_type = null;
+
+		if ( ! empty( $find_data['movie_results'] ) ) {
+			$tmdb_id    = $find_data['movie_results'][0]['id'];
+			$media_type = 'movie';
+		} elseif ( ! empty( $find_data['tv_results'] ) ) {
+			$tmdb_id    = $find_data['tv_results'][0]['id'];
+			$media_type = 'tv';
+		}
+
+		if ( ! $tmdb_id ) {
+			return null;
+		}
+
+		// Step 2: fetch full details.
+		$detail_response = wp_remote_get(
+			add_query_arg(
+				array( 'api_key' => $api_key ),
+				'https://api.themoviedb.org/3/' . $media_type . '/' . rawurlencode( (string) $tmdb_id )
+			),
+			array(
+				'timeout'   => 10,
+				'sslverify' => true,
+			)
+		);
+
+		if ( is_wp_error( $detail_response ) || 200 !== wp_remote_retrieve_response_code( $detail_response ) ) {
+			return null;
+		}
+
+		$detail = json_decode( wp_remote_retrieve_body( $detail_response ), true );
+
+		$title       = 'movie' === $media_type ? ( $detail['title'] ?? '' ) : ( $detail['name'] ?? '' );
+		$description = $detail['overview'] ?? '';
+		if ( strlen( $description ) > 200 ) {
+			$description = substr( $description, 0, 197 ) . '…';
+		}
+
+		$poster_path = $detail['poster_path'] ?? '';
+		$image       = $poster_path ? 'https://image.tmdb.org/t/p/w500' . $poster_path : '';
+		// TMDb w500 posters are always 500×750 (2:3 ratio).
+		$image_width  = $image ? 500 : 0;
+		$image_height = $image ? 750 : 0;
+
+		return array(
+			'url'         => $url,
+			'title'       => $title,
+			'description' => $description,
+			'image'       => $image,
+			'domain'      => 'imdb.com',
+			'imageWidth'  => $image_width,
+			'imageHeight' => $image_height,
+		);
+	}
+
+	/**
 	 * Fetch Open Graph metadata for a URL.
 	 *
 	 * @param WP_REST_Request $request The REST request.
-	 * @return WP_REST_Response
+	 * @return WP_REST_Response|WP_Error
 	 */
-	public function get_preview( WP_REST_Request $request ): WP_REST_Response {
+	public function get_preview( WP_REST_Request $request ) {
 		$url = $request->get_param( 'url' );
+
+		// For IMDb URLs, use the TMDb API when a key is configured.
+		$imdb_id = $this->get_imdb_id( $url );
+		if ( $imdb_id ) {
+			$tmdb_data = $this->fetch_from_tmdb( $imdb_id, $url );
+			if ( $tmdb_data ) {
+				return new WP_REST_Response( $tmdb_data, 200 );
+			}
+		}
 
 		$response = wp_remote_get(
 			$url,
@@ -107,9 +221,20 @@ class Better_Bookmarks_Rest {
 		);
 
 		if ( is_wp_error( $response ) ) {
-			return new WP_REST_Response(
-				array( 'error' => $response->get_error_message() ),
-				400
+			return new WP_Error(
+				'fetch_error',
+				$response->get_error_message(),
+				array( 'status' => 400 )
+			);
+		}
+
+		$status_code = wp_remote_retrieve_response_code( $response );
+		if ( $status_code < 200 || $status_code >= 300 ) {
+			return new WP_Error(
+				'http_error',
+				/* translators: %d: HTTP status code */
+				sprintf( __( 'Remote server returned HTTP %d.', 'better-bookmarks' ), $status_code ),
+				array( 'status' => 400 )
 			);
 		}
 
@@ -182,6 +307,16 @@ class Better_Bookmarks_Rest {
 		// Truncate description to a sensible length.
 		if ( strlen( $data['description'] ) > 200 ) {
 			$data['description'] = substr( $data['description'], 0, 197 ) . '…';
+		}
+
+		// If we couldn't extract a title the page likely blocked the request
+		// (e.g. a bot-challenge page that returned HTTP 200).
+		if ( '' === $data['title'] ) {
+			return new WP_Error(
+				'no_metadata',
+				__( 'Could not retrieve metadata. The site may be blocking automated requests.', 'better-bookmarks' ),
+				array( 'status' => 400 )
+			);
 		}
 
 		return new WP_REST_Response( $data, 200 );

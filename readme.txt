@@ -4,7 +4,7 @@ Tags: block, bookmark, link-card, open-graph, gutenberg
 Requires at least: 6.5
 Tested up to: 7.0
 Requires PHP: 7.2
-Stable tag: 1.0.5
+Stable tag: 1.1.0
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -60,6 +60,12 @@ Yes. Once a preview is loaded, open the block inspector and switch to the **Styl
 No.
 
 == Changelog ==
+
+= 1.1.0 =
+* Added settings page (Settings → Better Bookmarks) for plugin configuration.
+* Added TMDb API key setting, configurable via the settings page or by defining `BETTER_BOOKMARKS_TMDB_API_KEY` in wp-config.php.
+* IMDb links now fetch rich metadata (title, description, poster) from TMDb when an API key is configured, bypassing IMDb's bot restrictions.
+* Improved error messages when a remote server returns a non-200 HTTP status code.
 
 = 1.0.5 =
 * Added image fit control (contain/cover) to the image settings panel, defaulting to cover.
