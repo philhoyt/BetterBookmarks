@@ -218,6 +218,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 					<input
 						type="url"
 						className="bb-link-card-editor__url-input"
+						aria-label={ __( 'Link URL', 'better-bookmarks' ) }
 						value={ inputUrl }
 						onChange={ ( e ) => setInputUrl( e.target.value ) }
 						onKeyDown={ handleKeyDown }
