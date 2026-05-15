@@ -94,7 +94,7 @@ class Better_Bookmarks_Rest {
 	 * @return string IMDb ID (e.g. "tt5370118") or empty string.
 	 */
 	private function get_imdb_id( string $url ): string {
-		if ( preg_match( '#imdb\.com/title/(tt\d+)#i', $url, $m ) ) {
+		if ( preg_match( '#^https?://(?:www\.)?imdb\.com/title/(tt\d+)#i', $url, $m ) ) {
 			return $m[1];
 		}
 		return '';
