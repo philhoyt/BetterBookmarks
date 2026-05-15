@@ -1,8 +1,19 @@
 .bb-link-card {
+
+	/* Design tokens — override via theme.json or custom CSS. */
+	--bb-border-color: #e2e8f0;
+	--bb-border-color-hover: #cbd5e1;
+	--bb-bg: var(--wp--preset--color--base, #fff);
+	--bb-domain-color: #94a3b8;
+	--bb-focus-color: #6366f1;
+	--bb-focus-ring: rgba(99, 102, 241, 0.1);
+	--bb-error-color: #dc2626;
+	--bb-input-text: var(--wp--preset--color--contrast, #0f172a);
+
 	border-radius: 12px;
-	border: 1px solid #e2e8f0;
+	border: 1px solid var(--bb-border-color);
 	overflow: hidden;
-	background: #fff;
+	background: var(--bb-bg);
 	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
 	max-width: 560px;
 	transition: box-shadow 150ms ease, border-color 150ms ease;
@@ -10,7 +21,7 @@
 
 .bb-link-card:hover {
 	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-	border-color: #cbd5e1;
+	border-color: var(--bb-border-color-hover);
 }
 
 .bb-link-card__link {
@@ -22,7 +33,7 @@
 .bb-link-card__image-wrap {
 	width: 100%;
 	overflow: hidden;
-	background: #fff;
+	background: var(--bb-bg);
 }
 
 .bb-link-card__image {
@@ -41,7 +52,7 @@
 .bb-link-card__domain {
 	font-size: 0.6875rem;
 	font-weight: 500;
-	color: #94a3b8;
+	color: var(--bb-domain-color);
 	text-transform: uppercase;
 	letter-spacing: 0.04em;
 }
@@ -147,23 +158,23 @@
 
 .bb-link-card-editor__url-input {
 	flex: 1;
-	border: 1px solid #e2e8f0;
+	border: 1px solid var(--bb-border-color);
 	border-radius: 6px;
 	padding: 0.5rem 0.75rem;
 	font-size: 0.875rem;
 	font-family: inherit;
 	outline: none;
-	color: #0f172a;
+	color: var(--bb-input-text);
 	width: 100%;
 }
 
 .bb-link-card-editor__url-input:focus {
-	border-color: #6366f1;
-	box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+	border-color: var(--bb-focus-color);
+	box-shadow: 0 0 0 3px var(--bb-focus-ring);
 }
 
 .bb-editor-error {
-	color: #dc2626;
+	color: var(--bb-error-color);
 	font-size: 0.8125rem;
 	margin: 0.5rem 0 0;
 }
