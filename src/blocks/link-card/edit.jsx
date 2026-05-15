@@ -11,6 +11,7 @@ import {
 	Button,
 	Spinner,
 	SelectControl,
+	// eslint-disable-next-line @wordpress/no-unsafe-wp-apis -- still experimental per https://developer.wordpress.org/block-editor/reference-guides/components/unit-control/
 	__experimentalUnitControl as UnitControl,
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
@@ -24,6 +25,7 @@ import apiFetch from '@wordpress/api-fetch';
  * @param {Object}   root0
  * @param {Object}   root0.attributes
  * @param {Function} root0.setAttributes
+ * @param {string}   root0.clientId
  */
 export default function Edit( { attributes, setAttributes, clientId } ) {
 	const {
@@ -45,7 +47,9 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 				?.className ?? '',
 		[ clientId ]
 	);
-	const isCompactStacked = blockClassName.includes( 'is-style-compact-stacked' );
+	const isCompactStacked = blockClassName.includes(
+		'is-style-compact-stacked'
+	);
 	const isFixedAspectRatioStyle =
 		blockClassName.includes( 'is-style-compact' ) || isCompactStacked;
 	const [ inputUrl, setInputUrl ] = useState( url );

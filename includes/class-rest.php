@@ -291,11 +291,25 @@ class Better_Bookmarks_Rest {
 				// Only probe the image if it passes the same safety checks as the
 				// page URL — prevents chained SSRF via a malicious og:image value.
 				if ( $this->is_safe_url( $data['image'] ) ) {
-					// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- getimagesize() emits E_WARNING on network failure; return value is always checked.
-					$size = @getimagesize( $data['image'] );
-					if ( $size ) {
-						$img_w = $size[0];
-						$img_h = $size[1];
+					$img_response = wp_remote_get(
+						$data['image'],
+						array(
+							'timeout'             => 5,
+							'limit_response_size' => 32768, // 32 KB covers all format headers.
+							'headers'             => array( 'Range' => 'bytes=0-32767' ),
+							'sslverify'           => true,
+						)
+					);
+					if ( ! is_wp_error( $img_response ) ) {
+						$img_code = wp_remote_retrieve_response_code( $img_response );
+						// Accept 200 (Range ignored) or 206 (partial content).
+						if ( 200 === $img_code || 206 === $img_code ) {
+							$size = getimagesizefromstring( wp_remote_retrieve_body( $img_response ) );
+							if ( $size ) {
+								$img_w = $size[0];
+								$img_h = $size[1];
+							}
+						}
 					}
 				}
 			}

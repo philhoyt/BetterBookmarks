@@ -1,5 +1,5 @@
 {
-    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "$schema": "https://schemas.wp.org/stable/block.json",
     "apiVersion": 3,
     "name": "better-bookmarks/link-card",
     "version": "1.1.0",
@@ -40,6 +40,12 @@
         "spacing": {
             "margin":  [ "top", "bottom" ],
             "padding": true
+        },
+        "typography": {
+            "fontSize":   true,
+            "lineHeight": true,
+            "__experimentalFontFamily": true,
+            "__experimentalFontWeight": true
         }
     },
     "styles": [
