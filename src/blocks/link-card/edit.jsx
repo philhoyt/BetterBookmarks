@@ -61,6 +61,10 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		style: isCompactStacked ? { maxWidth: cardMaxWidth } : undefined,
 	} );
 
+	// Run once on mount: if a URL was saved without metadata (e.g. after a
+	// block duplicate or an interrupted fetch), re-fetch automatically.
+	// Empty deps is intentional — re-running on every url/title change would
+	// trigger fetches while the user is still typing.
 	useEffect( () => {
 		if ( url && ! title ) {
 			fetchPreview( url );
