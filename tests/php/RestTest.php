@@ -14,7 +14,15 @@ use PHPUnit\Framework\TestCase;
 
 class RestTest extends TestCase {
 
-	private Better_Bookmarks_Rest $rest;
+	/**
+	 * Instance under test.
+	 *
+	 * Untyped on purpose: typed properties are PHP 7.4 syntax and the suite
+	 * runs on the plugin's PHP 7.3 CI floor.
+	 *
+	 * @var Better_Bookmarks_Rest
+	 */
+	private $rest;
 
 	protected function setUp(): void {
 		parent::setUp();
