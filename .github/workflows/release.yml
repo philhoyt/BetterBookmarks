@@ -3,7 +3,11 @@ name: Release
 on:
   push:
     tags:
-      - 'v*'
+      # Lowercase "v" only. Plugin Update Checker strips the prefix with
+      # ltrim( $tag, 'v' ), which is case-sensitive: an uppercase "V1.2.3" tag
+      # is left as-is and version_compare() ranks it BELOW the installed
+      # version, so no update is ever offered.
+      - 'v[0-9]+.[0-9]+.[0-9]+'
 
 jobs:
   release:
