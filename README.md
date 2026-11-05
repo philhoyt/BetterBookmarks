@@ -1,5 +1,7 @@
 # Better Bookmarks
 
+[![CI](https://github.com/philhoyt/BetterBookmarks/actions/workflows/ci.yml/badge.svg)](https://github.com/philhoyt/BetterBookmarks/actions/workflows/ci.yml)
+
 A WordPress block that fetches Open Graph metadata from a URL and renders a link preview card.
 
 ![Better Bookmarks block showing a link preview card](assets/screenshot-1.png)
