@@ -10,7 +10,7 @@ A WordPress block that fetches Open Graph metadata from a URL and renders a link
 
 - WordPress 6.5+
 - PHP 7.2+
-- Node.js 20+ (for building from source)
+- Node.js 22+ (for building from source)
 
 ## Installation
 
