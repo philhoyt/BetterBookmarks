@@ -8,7 +8,7 @@
  * Author URI:  https://philhoyt.com/
  * Requires at least: 6.5
  * Requires PHP:      7.2
- * Tested up to:      7.0
+ * Tested up to:      7.1
  * License:           GPL-2.0-or-later
  * Text Domain:       better-bookmarks
  *

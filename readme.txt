@@ -2,7 +2,7 @@
 Contributors: philhoyt
 Tags: block, bookmark, link-card, open-graph, gutenberg
 Requires at least: 6.5
-Tested up to: 7.0
+Tested up to: 7.1
 Requires PHP: 7.2
 Stable tag: 1.2.0
 License: GPL-2.0-or-later
