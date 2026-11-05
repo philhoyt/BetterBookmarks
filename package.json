@@ -1,6 +1,6 @@
 {
     "name": "better-bookmarks",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "description": "A link card block with Open Graph preview support.",
     "scripts": {
         "build": "wp-scripts build --webpack-src-dir=src --output-path=build",
