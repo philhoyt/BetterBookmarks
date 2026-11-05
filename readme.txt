@@ -62,12 +62,14 @@ No.
 == Changelog ==
 
 = 1.2.0 =
-* Replaced getimagesize() with a capped wp_remote_get() call for image dimension probing. Enforces a 5-second timeout and 32 KB body limit, with Range header support.
-* Added typography block support (font size, line height, font family, font weight).
-* Replaced all hardcoded colors in the stylesheet with CSS custom properties, with fallbacks to --wp--preset--color--base and --wp--preset--color--contrast.
-* Added aria-label to the URL input in the block placeholder.
-* Fixed get_imdb_id() regex to require a full domain match, preventing false positives on domains containing "imdb.com" as a substring.
-* Switched block.json $schema from trunk to stable.
+* Fix: Replaced getimagesize() with a capped wp_remote_get() call for image dimension probing. Enforces a 5-second timeout and 32 KB body limit, with Range header support.
+* Add: Typography block support (font size, line height, font family, font weight).
+* Change: Replaced all hardcoded colors in the stylesheet with CSS custom properties, with fallbacks to --wp--preset--color--base and --wp--preset--color--contrast.
+* Fix: Added aria-label to the URL input in the block placeholder.
+* Fix: get_imdb_id() regex now requires a full domain match, preventing false positives on domains containing "imdb.com" as a substring.
+* Change: Switched block.json $schema from trunk to stable.
+* Change: Plugin updates are delivered through GitHub releases via Plugin Update Checker.
+* Change: Tested up to WordPress 7.1.
 
 = 1.1.0 =
 * Added settings page (Settings -> Better Bookmarks) for plugin configuration.
