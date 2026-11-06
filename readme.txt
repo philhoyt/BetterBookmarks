@@ -4,7 +4,7 @@ Tags: block, bookmark, link-card, open-graph, gutenberg
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.2
-Stable tag: 1.2.1
+Stable tag: 1.2.2
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -65,6 +65,10 @@ Yes. After a preview has loaded, open the Styles tab in the block inspector. The
 No.
 
 == Changelog ==
+
+= 1.2.2 =
+* Fixed the update checker so it always installs the release zip, not whichever file GitHub lists first.
+* Rewrote the readme files in plain English. Building now needs Node 22.
 
 = 1.2.1 =
 * Fixed update checks failing with a missing class: the update checker's Markdown and readme parsers now ship with the plugin.
