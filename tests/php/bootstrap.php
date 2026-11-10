@@ -10,3 +10,10 @@ require_once dirname( __DIR__, 2 ) . '/vendor/autoload.php';
 if ( ! defined( 'ABSPATH' ) ) {
 	define( 'ABSPATH', dirname( __DIR__, 2 ) . '/' );
 }
+
+// The REST class puts the version in its user agent.
+if ( ! defined( 'BETTER_BOOKMARKS_VERSION' ) ) {
+	define( 'BETTER_BOOKMARKS_VERSION', '0.0.0-test' );
+}
+
+require_once __DIR__ . '/stubs.php';

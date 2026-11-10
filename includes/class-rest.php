@@ -210,7 +210,9 @@ class Better_Bookmarks_Rest {
 			}
 		}
 
-		$response = wp_remote_get(
+		// wp_safe_remote_get() re-validates every redirect hop, so a public URL
+		// that redirects to a private or metadata address is refused.
+		$response = wp_safe_remote_get(
 			$url,
 			array(
 				'timeout'             => 10,
@@ -291,7 +293,7 @@ class Better_Bookmarks_Rest {
 				// Only probe the image if it passes the same safety checks as the
 				// page URL — prevents chained SSRF via a malicious og:image value.
 				if ( $this->is_safe_url( $data['image'] ) ) {
-					$img_response = wp_remote_get(
+					$img_response = wp_safe_remote_get(
 						$data['image'],
 						array(
 							'timeout'             => 5,
