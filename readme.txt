@@ -4,7 +4,7 @@ Tags: block, bookmark, link-card, open-graph, gutenberg
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.2
-Stable tag: 1.2.2
+Stable tag: 1.2.3
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -65,6 +65,9 @@ Yes. After a preview has loaded, open the Styles tab in the block inspector. The
 No.
 
 == Changelog ==
+
+= 1.2.3 =
+* Security: Link previews now check every redirect. Before, a public link that redirected to a private or internal address was still fetched.
 
 = 1.2.2 =
 * Fixed the update checker so it always installs the release zip, not whichever file GitHub lists first.
